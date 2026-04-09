@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dumont Signature — Cathy Dumont, Créatrice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --noir:   #0b0a08;
+  --creme:  #f8f4ee;
+  --or:     #c9a96e;
+  --or2:    #e8d5b0;
+  --gris:   #8a8278;
+  --ligne:  rgba(201,169,110,0.2);
+  --ff-titre: 'Playfair Display', Georgia, serif;
+  --ff-corps: 'Jost', sans-serif;
+}
+
+body {
+  background: var(--creme);
+  color: var(--noir);
+  font-family: var(--ff-corps);
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSEUR */
+#curseur {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--or);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .25s, height .25s, opacity .25s, background .25s;
+}
+#curseur.grand {
+  width: 38px; height: 38px;
+  background: transparent;
+  border: 1px solid var(--or);
+  opacity: .6;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2.2rem 6vw;
+  transition: background .5s, padding .4s;
+}
+nav.colle {
+  background: rgba(248,244,238,.95);
+  backdrop-filter: blur(16px);
+  padding: 1.4rem 6vw;
+  border-bottom: 1px solid var(--ligne);
+}
+.logo {
+  font-family: var(--ff-titre);
+  font-size: 1.12rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--noir);
+  text-decoration: none;
+}
+.logo span { color: var(--or); }
+.nav-liens { display: flex; gap: 2.8rem; list-style: none; }
+.nav-liens a {
+  font-size: .63rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gris);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav-liens a:hover { color: var(--or); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 55% 45%;
+  position: relative;
+  overflow: hidden;
+}
+.hero-gauche {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 11rem 4rem 6rem 10vw;
+  position: relative;
+  z-index: 2;
+}
+.hero-surtitre {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: monter .9s .2s forwards;
+}
+.hero-surtitre::before {
+  content: '';
+  width: 2.5rem; height: 1px;
+  background: var(--or);
+  display: block; flex-shrink: 0;
+}
+.hero-surtitre span {
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+.hero-h1 {
+  font-family: var(--ff-titre);
+  font-size: clamp(3.6rem, 5.2vw, 5.8rem);
+  font-weight: 400;
+  line-height: 1.04;
+  color: var(--noir);
+  opacity: 0;
+  animation: monter 1s .44s forwards;
+}
+.hero-h1 em {
+  font-style: italic;
+  color: var(--or);
+  display: block;
+}
+.hero-texte {
+  margin-top: 2.5rem;
+  font-size: .82rem;
+  line-height: 2;
+  color: var(--gris);
+  max-width: 30rem;
+  opacity: 0;
+  animation: monter .9s .7s forwards;
+}
+.hero-cta {
+  margin-top: 3.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .9rem;
+  font-size: .62rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--noir);
+  text-decoration: none;
+  font-weight: 400;
+  opacity: 0;
+  animation: monter .9s .95s forwards;
+  transition: gap .3s, color .3s;
+  position: relative;
+  padding-bottom: .4rem;
+  align-self: flex-start;
+}
+.hero-cta::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px; background: var(--or);
+}
+.hero-cta:hover { color: var(--or); gap: 1.5rem; }
+
+.hero-droite {
+  position: relative;
+  background: var(--noir);
+  overflow: hidden;
+  opacity: 0;
+  animation: apparaitre 1.6s .1s forwards;
+}
+.hero-canvas {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.h-cercle-ext {
+  position: absolute;
+  width: 68%; padding-bottom: 68%;
+  border: 1px solid rgba(201,169,110,.15);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+.h-cercle-int {
+  position: absolute;
+  width: 44%; padding-bottom: 44%;
+  border: 1px solid rgba(201,169,110,.1);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: tourner 28s linear infinite;
+}
+.h-cercle-int::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 7px; height: 7px;
+  background: var(--or);
+  border-radius: 50%;
+}
+.h-ligne-v {
+  position: absolute;
+  left: 50%; top: 5%;
+  width: 1px; height: 90%;
+  background: linear-gradient(to bottom, transparent, rgba(201,169,110,.18), transparent);
+}
+.h-ligne-h {
+  position: absolute;
+  top: 50%; left: 5%;
+  height: 1px; width: 90%;
+  background: linear-gradient(to right, transparent, rgba(201,169,110,.18), transparent);
+}
+.h-initiales {
+  font-family: var(--ff-titre);
+  font-size: 10rem;
+  font-weight: 400;
+  color: rgba(201,169,110,.07);
+  letter-spacing: -.02em;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+}
+.h-bas {
+  position: absolute;
+  bottom: 2.5rem; right: 2.5rem;
+  text-align: right;
+}
+.h-bas p {
+  font-size: .56rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,.38);
+  line-height: 2;
+}
+
+.scroll-ind {
+  position: absolute;
+  bottom: 3rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .7rem;
+  opacity: 0;
+  animation: apparaitre 1s 1.6s forwards;
+  z-index: 3;
+}
+.scroll-ind span {
+  font-size: .56rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gris);
+  writing-mode: vertical-rl;
+}
+.scroll-trait {
+  width: 1px; height: 3.5rem;
+  background: linear-gradient(to bottom, var(--or), transparent);
+  animation: pulse 2.5s 2s infinite;
+}
+
+/* SECTION MOI */
+.section-moi {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--ligne);
+}
+.moi-gauche {
+  background: var(--noir);
+  padding: 7rem 6vw;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.moi-gauche::before {
+  content: 'CD';
+  position: absolute;
+  bottom: -2rem; right: -1rem;
+  font-family: var(--ff-titre);
+  font-size: 16rem;
+  font-weight: 400;
+  color: rgba(255,255,255,.025);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+.s-label {
+  font-size: .6rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--or);
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: 2.2rem;
+}
+.s-label::before {
+  content: '';
+  width: 2rem; height: 1px;
+  background: var(--or);
+  display: block; flex-shrink: 0;
+}
+.moi-titre {
+  font-family: var(--ff-titre);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 400;
+  color: var(--creme);
+  line-height: 1.15;
+  margin-bottom: 2.5rem;
+}
+.moi-titre em { font-style: italic; color: var(--or2); }
+.moi-corps {
+  font-size: .8rem;
+  line-height: 2.1;
+  color: rgba(248,244,238,.52);
+  max-width: 26rem;
+}
+.moi-corps p + p { margin-top: 1.4rem; }
+.moi-corps strong { color: rgba(248,244,238,.8); font-weight: 400; }
+
+.moi-droite {
+  padding: 7rem 6vw;
+  display: flex; flex-direction: column; justify-content: center;
+  border-left: 1px solid var(--ligne);
+}
+.valeurs { list-style: none; margin-top: .5rem; }
+.valeur {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--ligne);
+}
+.valeur:first-child { border-top: 1px solid var(--ligne); }
+.val-nom {
+  font-family: var(--ff-titre);
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: .55rem;
+  line-height: 1.2;
+}
+.val-desc {
+  font-size: .74rem;
+  line-height: 1.9;
+  color: var(--gris);
+}
+
+/* CE QUE JE CRÉE */
+.section-creer {
+  padding: 8rem 10vw;
+  border-top: 1px solid var(--ligne);
+}
+.creer-entete {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  align-items: end;
+}
+.s-titre {
+  font-family: var(--ff-titre);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+.s-titre em { font-style: italic; color: var(--or); }
+.creer-intro {
+  font-size: .82rem;
+  line-height: 2;
+  color: var(--gris);
+  align-self: end;
+}
+
+.domaines {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--ligne);
+}
+.domaine {
+  padding: 2.8rem 2rem;
+  border-right: 1px solid var(--ligne);
+  transition: background .4s;
+  position: relative; overflow: hidden;
+}
+.domaine:last-child { border-right: none; }
+.domaine::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--or);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s;
+}
+.domaine:hover { background: rgba(201,169,110,.04); }
+.domaine:hover::after { transform: scaleX(1); }
+.d-num {
+  font-family: var(--ff-titre);
+  font-style: italic;
+  font-size: .8rem;
+  color: var(--or);
+  margin-bottom: 1.8rem;
+  display: block;
+}
+.d-nom {
+  font-family: var(--ff-titre);
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+}
+.d-texte {
+  font-size: .73rem;
+  line-height: 1.95;
+  color: var(--gris);
+}
+
+/* CITATION */
+.section-citation {
+  padding: 8rem 10vw;
+  background: var(--noir);
+  position: relative; overflow: hidden;
+  border-top: 1px solid rgba(201,169,110,.1);
+}
+.cit-deco {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: var(--ff-titre);
+  font-size: 30rem;
+  font-weight: 400;
+  color: rgba(255,255,255,.013);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.cit-interieur {
+  max-width: 54rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative; z-index: 1;
+}
+.gx {
+  font-family: var(--ff-titre);
+  font-size: 5rem;
+  color: var(--or);
+  opacity: .35;
+  line-height: .5;
+  display: block;
+  margin-bottom: 2.2rem;
+}
+.cit-texte {
+  font-family: var(--ff-titre);
+  font-size: clamp(1.35rem, 2.5vw, 2.1rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--creme);
+  line-height: 1.6;
+}
+.cit-texte strong { color: var(--or2); font-weight: 400; }
+.cit-auteur {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+.cit-auteur::before, .cit-auteur::after {
+  content: '';
+  width: 3rem; height: 1px;
+  background: rgba(201,169,110,.25);
+  display: block;
+}
+.cit-auteur span {
+  font-size: .6rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,.55);
+}
+
+/* UNIVERS */
+.section-univers {
+  padding: 8rem 10vw;
+  border-top: 1px solid var(--ligne);
+}
+.univers-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+}
+.univers-sous {
+  font-size: .8rem;
+  color: var(--gris);
+  max-width: 26rem;
+  line-height: 1.85;
+  text-align: right;
+}
+.univers-grille {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  background: var(--ligne);
+  height: 68vh;
+  min-height: 460px;
+}
+.u-carte {
+  background: var(--noir);
+  position: relative;
+  overflow: hidden;
+  transition: background .4s;
+}
+.u-carte:first-child { grid-row: 1 / 3; }
+.u-fond {
+  position: absolute; inset: 0;
+  opacity: .08; transition: opacity .6s;
+}
+.u-carte:hover .u-fond { opacity: .18; }
+.f1 { background: radial-gradient(circle at 40% 60%, #c9a96e, transparent 60%); }
+.f2 { background: radial-gradient(circle at 60% 40%, #a08060, transparent 60%); }
+.f3 { background: radial-gradient(circle at 50% 50%, #887560, transparent 60%); }
+.f4 { background: radial-gradient(circle at 30% 70%, #b09070, transparent 60%); }
+.f5 { background: radial-gradient(circle at 70% 30%, #c8b090, transparent 60%); }
+.u-deco {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 55%; padding-bottom: 55%;
+  border: 1px solid rgba(201,169,110,.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.u-infos {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.8rem;
+  background: linear-gradient(to top, rgba(11,10,8,.92) 0%, transparent 100%);
+}
+.u-tag {
+  font-size: .55rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,.55);
+  display: block;
+  margin-bottom: .45rem;
+}
+.u-nom {
+  font-family: var(--ff-titre);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--creme);
+  line-height: 1.2;
+}
+.u-carte:first-child .u-nom { font-size: 1.7rem; }
+
+/* CONTACT */
+.section-contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--ligne);
+}
+.contact-g {
+  padding: 7rem 6vw;
+  border-right: 1px solid var(--ligne);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.contact-p {
+  font-size: .82rem;
+  line-height: 2.1;
+  color: var(--gris);
+  max-width: 28rem;
+  margin-top: 2rem;
+}
+.contact-infos {
+  margin-top: 3.5rem;
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+.c-ligne {
+  display: flex; align-items: center; gap: 1.5rem;
+}
+.c-eti {
+  font-size: .57rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--or);
+  min-width: 4rem;
+}
+.c-val {
+  font-size: .78rem;
+  color: var(--gris);
+  letter-spacing: .04em;
+}
+.contact-d {
+  padding: 7rem 6vw;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.form { display: flex; flex-direction: column; gap: 2rem; }
+.fg { display: flex; flex-direction: column; gap: .55rem; }
+.f-eti {
+  font-size: .57rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+.f-input, .f-area {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--ligne);
+  padding: .85rem 0;
+  font-family: var(--ff-corps);
+  font-size: .8rem;
+  font-weight: 300;
+  color: var(--noir);
+  letter-spacing: .04em;
+  outline: none;
+  transition: border-color .4s;
+  width: 100%;
+}
+.f-input:focus, .f-area:focus { border-color: var(--or); }
+.f-input::placeholder, .f-area::placeholder { color: rgba(138,130,120,.38); }
+.f-area { resize: none; height: 5.5rem; }
+.btn-send {
+  margin-top: .5rem;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: var(--noir);
+  color: var(--creme);
+  border: none;
+  padding: 1.1rem 2.8rem;
+  font-family: var(--ff-corps);
+  font-size: .62rem;
+  font-weight: 300;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .4s, gap .3s;
+}
+.btn-send:hover { background: var(--or); gap: 1.8rem; }
+.btn-send::after { content: '→'; font-size: .85rem; }
+.succes {
+  display: none;
+  padding: 1.3rem 1.6rem;
+  border: 1px solid rgba(201,169,110,.3);
+  font-size: .75rem;
+  letter-spacing: .07em;
+  color: var(--or);
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--ligne);
+  padding: 2.8rem 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.f-logo {
+  font-family: var(--ff-titre);
+  font-size: 1rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--noir);
+}
+.f-base { font-size: .6rem; letter-spacing: .14em; color: var(--gris); }
+.f-tag {
+  font-family: var(--ff-titre);
+  font-style: italic;
+  font-size: .85rem;
+  color: var(--or);
+}
+
+/* KEYFRAMES */
+@keyframes monter {
+  from { opacity:0; transform:translateY(26px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes apparaitre {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes tourner {
+  from { transform:translate(-50%,-50%) rotate(0deg); }
+  to   { transform:translate(-50%,-50%) rotate(360deg); }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; } 50% { opacity:.2; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d2 { transition-delay:.15s; }
+.d3 { transition-delay:.3s; }
+.d4 { transition-delay:.45s; }
+
+/* RESPONSIVE */
+@media (max-width:960px) {
+  body { cursor: auto; }
+  #curseur { display:none; }
+  .hero { grid-template-columns:1fr; }
+  .hero-gauche { padding:9rem 7vw 5rem; }
+  .hero-droite { height:55vw; }
+  .section-moi { grid-template-columns:1fr; }
+  .moi-droite { border-left:none; border-top:1px solid var(--ligne); }
+  .creer-entete { grid-template-columns:1fr; gap:2rem; }
+  .domaines { grid-template-columns:1fr 1fr; }
+  .domaine { border-bottom:1px solid var(--ligne); }
+  .domaine:nth-child(2n) { border-right:none; }
+  .univers-entete { flex-direction:column; align-items:flex-start; gap:1.5rem; }
+  .univers-sous { text-align:left; }
+  .univers-grille { grid-template-columns:1fr 1fr; grid-template-rows:auto; height:auto; }
+  .u-carte:first-child { grid-row:auto; }
+  .u-carte { height:45vw; }
+  .section-contact { grid-template-columns:1fr; }
+  .contact-g { border-right:none; border-bottom:1px solid var(--ligne); }
+  footer { flex-direction:column; gap:1rem; text-align:center; }
+  .nav-liens { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div id="curseur"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">Dumont <span>Signature</span></a>
+  <ul class="nav-liens">
+    <li><a href="#moi">À propos</a></li>
+    <li><a href="#creer">Ce que je crée</a></li>
+    <li><a href="#univers">Créations</a></li>
+    <li><a href="#collaborations">Collaborations</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-gauche">
+    <div class="hero-surtitre">
+      <span>Cathy Dumont — Créatrice</span>
+    </div>
+    <h1 class="hero-h1">
+      Design<br>d'objets,<br><em>de mode &<br>d'accessoires</em>
+    </h1>
+    <p class="hero-texte">
+      Je crée avec le cœur et l'instinct. Mes projets naissent souvent d'une vision personnelle, d'une émotion, d'une forme qui s'impose à moi. Je peux aussi entrer dans un univers précis, tout en gardant ce regard sensible et singulier qui guide ma manière de créer.
+    </p>
+    <a href="#contact" class="hero-cta">Me contacter &nbsp;→</a>
+  </div>
+
+  <div class="hero-droite">
+    <div class="hero-canvas">
+      <div class="h-cercle-ext"></div>
+      <div class="h-cercle-int"></div>
+      <div class="h-ligne-v"></div>
+      <div class="h-ligne-h"></div>
+      <span class="h-initiales">DS</span>
+    </div>
+    <div class="h-bas">
+      <p>Dumont Signature</p>
+      <p>dumontsignature.com</p>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-trait"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
+
+<!-- MOI -->
+<section class="section-moi" id="moi">
+  <div class="moi-gauche reveal">
+    <p class="s-label">À propos</p>
+    <h2 class="moi-titre">
+      Une créatrice<br><em>autodidacte,<br>libre & engagée</em>
+    </h2>
+    <div class="moi-corps">
+      <p>Je m'appelle <strong>Cathy Dumont</strong>. Pendant 23 ans, j'ai travaillé dans l'aéronautique navale, dans un univers exigeant où la rigueur, l'observation et la précision comptent chaque jour. Et en parallèle, il y a toujours eu ce besoin profond de créer.</p>
+      <p>Aujourd'hui, je choisis de lui donner toute sa place. Je suis autodidacte, avec une approche libre, instinctive et sincère. <strong>Je m'inspire de ce qui me touche, des matières, des formes, des détails et des émotions</strong> pour imaginer des créations avec une identité propre.</p>
+      <p>La plupart de mes projets naissent d'une vision personnelle, sans fil conducteur imposé au départ. Mais je suis aussi capable d'entrer dans une demande, de comprendre un univers et d'y apporter mon regard, tout en restant fidèle à ce qui fait ma manière de créer.</p>
+    </div>
+  </div>
+
+  <div class="moi-droite reveal d2">
+    <p class="s-label">Ma façon de créer</p>
+    <ul class="valeurs">
+      <li class="valeur">
+        <div>
+          <h3 class="val-nom">L'instinct avant tout</h3>
+          <p class="val-desc">Je ne commence pas toujours par un cadre précis. Souvent, tout part d'une sensation, d'une image intérieure, d'une matière ou d'un détail qui m'appelle. Ma création avance de façon sensible, naturelle, vivante.</p>
+        </div>
+      </li>
+      <li class="valeur">
+        <div>
+          <h3 class="val-nom">Une vision libre</h3>
+          <p class="val-desc">Je ne me limite pas à un seul domaine. Objet, flaconnage, beauté, mode ou accessoire : je vais là où une idée me semble juste. Cette liberté me permet de faire émerger des projets singuliers, avec leur propre présence.</p>
+        </div>
+      </li>
+      <li class="valeur">
+        <div>
+          <h3 class="val-nom">Créer aussi pour une demande</h3>
+          <p class="val-desc">Même si beaucoup de mes créations viennent d'une vision personnelle, je peux aussi travailler à partir d'une demande précise. J'aime comprendre un besoin, sentir un univers, puis proposer une réponse qui reste sensible, cohérente et personnelle.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- CE QUE JE CRÉE -->
+<section class="section-creer" id="creer">
+  <div class="creer-entete reveal">
+    <div>
+      <p class="s-label">Ce que je crée</p>
+      <h2 class="s-titre">Des créations<br>qui portent <em>une intention</em></h2>
+    </div>
+    <p class="creer-intro">Du flaconnage à la mode, en passant par les accessoires et la beauté, je développe des créations guidées par une vision personnelle. Chaque projet cherche une justesse de forme, de présence et d'émotion.</p>
+  </div>
+  <div class="domaines">
+    <div class="domaine reveal">
+      <span class="d-num">01</span>
+      <h3 class="d-nom">Flaconnage &<br>Bouteilles</h3>
+      <p class="d-texte">Parfumerie, alcools, cosmétique — je dessine des contenants qui séduisent avant même d'être ouverts. La forme est déjà une promesse.</p>
+    </div>
+    <div class="domaine reveal d2">
+      <span class="d-num">02</span>
+      <h3 class="d-nom">Mode &<br>Accessoires</h3>
+      <p class="d-texte">Des pièces à porter avec du caractère. Bijoux, accessoires, objets de collection — chaque création a une identité forte et singulière.</p>
+    </div>
+    <div class="domaine reveal d3">
+      <span class="d-num">03</span>
+      <h3 class="d-nom">Beauté &<br>Cosmétique</h3>
+      <p class="d-texte">L'écrin fait partie du soin. Je conçois des produits où la beauté du contenant prolonge et amplifie celle du contenu.</p>
+    </div>
+    <div class="domaine reveal d4">
+      <span class="d-num">04</span>
+      <h3 class="d-nom">Projets<br>sur-mesure</h3>
+      <p class="d-texte">Vous avez une vision précise ? Je suis ouverte à la discussion. Chaque projet est unique — j'y apporte ma sensibilité entière.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CITATION -->
+<section class="section-citation">
+  <div class="cit-deco">"</div>
+  <div class="cit-interieur">
+    <span class="gx reveal">"</span>
+    <p class="cit-texte reveal">
+      Ce besoin de créer, il a toujours été là. <strong>Pas une passion que j'ai trouvée un jour — une part de moi que j'ai enfin décidé d'écouter pleinement.</strong>
+    </p>
+    <div class="cit-auteur reveal">
+      <span>Cathy Dumont — Dumont Signature</span>
+    </div>
+  </div>
+</section>
+
+<!-- UNIVERS -->
+<section class="section-univers" id="univers">
+  <div class="univers-entete reveal">
+    <div>
+      <p class="s-label">Mes univers</p>
+      <h2 class="s-titre">Mes <em>créations</em></h2>
+    </div>
+    <p class="univers-sous">Des créations nées d'une vision personnelle, sans cadre imposé au départ. Je crée de manière instinctive, en laissant venir une forme, une émotion, une idée. Chaque projet porte un univers propre, avec l'envie de proposer quelque chose de singulier, sensible et durable.</p>
+  </div>
+  <div class="univers-grille reveal">
+    <div class="u-carte">
+      <div class="u-fond f1"></div>
+      <div class="u-deco"></div>
+      <div class="u-infos">
+        <span class="u-tag">Création 01</span>
+        <strong class="u-nom">Projet signature<br>à mettre en avant</strong>
+      </div>
+    </div>
+    <div class="u-carte">
+      <div class="u-fond f2"></div>
+      <div class="u-infos">
+        <span class="u-tag">Création 02</span>
+        <strong class="u-nom">Flacon, objet<br>ou accessoire</strong>
+      </div>
+    </div>
+    <div class="u-carte">
+      <div class="u-fond f3"></div>
+      <div class="u-infos">
+        <span class="u-tag">Création 03</span>
+        <strong class="u-nom">Projet personnel<br>ou série</strong>
+      </div>
+    </div>
+    <div class="u-carte">
+      <div class="u-fond f4"></div>
+      <div class="u-infos">
+        <span class="u-tag">Création 04</span>
+        <strong class="u-nom">Beauté, mode<br>ou bijou</strong>
+      </div>
+    </div>
+    <div class="u-carte">
+      <div class="u-fond f5"></div>
+      <div class="u-infos">
+        <span class="u-tag">Création 05</span>
+        <strong class="u-nom">Autre projet<br>à présenter</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- COLLABORATIONS -->
+<section class="section-creer" id="collaborations" style="padding-top:6rem">
+  <div class="creer-entete reveal">
+    <div>
+      <p class="s-label">Collaborations</p>
+      <h2 class="s-titre">Ouverte aux<br><em>projets partagés</em></h2>
+    </div>
+    <p class="creer-intro">Mes créations naissent d'abord d'une vision personnelle. Mais je suis aussi ouverte aux collaborations lorsque je sens qu'un projet, une sensibilité ou un univers peuvent réellement se rencontrer. Je peux créer à partir d'une demande, tout en gardant un regard sincère et singulier.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section-contact" id="contact">
+  <div class="contact-g reveal">
+    <p class="s-label">Contact</p>
+    <h2 class="s-titre" style="margin-top:1.2rem">Parlons de<br><em>votre projet</em></h2>
+    <p class="contact-p">Je suis ouverte à la discussion, aux rencontres créatives, aux projets qui ont du sens. Écrivez-moi — simplement, directement. Je lis tout et je réponds personnellement.</p>
+    <div class="contact-infos">
+      <div class="c-ligne">
+        <span class="c-eti">Email</span>
+        <span class="c-val">contact@dumontsignature.com</span>
+      </div>
+      <div class="c-ligne">
+        <span class="c-eti">Site</span>
+        <span class="c-val">dumontsignature.com</span>
+      </div>
+      <div class="c-ligne">
+        <span class="c-eti">Réponse</span>
+        <span class="c-val">Sous 48h — toujours en personne</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-d reveal d2">
+    <form class="form" id="leForm">
+      <div class="fg">
+        <label class="f-eti">Votre nom</label>
+        <input type="text" class="f-input" placeholder="Prénom Nom" required>
+      </div>
+      <div class="fg">
+        <label class="f-eti">Votre email</label>
+        <input type="email" class="f-input" placeholder="vous@exemple.com" required>
+      </div>
+      <div class="fg">
+        <label class="f-eti">Votre projet ou votre idée</label>
+        <textarea class="f-area" placeholder="Parlez-moi de ce que vous avez en tête…"></textarea>
+      </div>
+      <button type="submit" class="btn-send">Envoyer</button>
+      <div class="succes" id="succes">Message reçu — je vous répondrai personnellement sous 48h.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="f-logo">Dumont Signature</span>
+  <span class="f-tag">Créer par instinct, signer par passion</span>
+  <span class="f-base">© 2026 Cathy Dumont — dumontsignature.com</span>
+</footer>
+
+<script>
+// Curseur
+const cur = document.getElementById('curseur');
+if (cur && window.matchMedia('(pointer:fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a,button,.domaine,.u-carte').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('grand'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('grand'));
+  });
+}
+
+// Nav
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('colle', window.scrollY > 60);
+}, { passive: true });
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Formulaire
+document.getElementById('leForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('.btn-send');
+  btn.textContent = 'Envoi…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.style.display = 'none';
+    document.getElementById('succes').style.display = 'block';
+  }, 1000);
+});
+</script>
+</body>
+</html>
